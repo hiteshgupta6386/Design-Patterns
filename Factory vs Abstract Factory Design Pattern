@@ -4,10 +4,10 @@ Below are the key differences between factory and abstract factory design patter
 
 | Aspect                   | Factory Design Pattern                                | Abstract Factory Design Pattern                                                     |
 | -----------------------  | ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| 1. Purpose               | Creates objects without specifying the exact class.   |  Creates families of related objects without specifying their concrete classes.     | 
+| 1. Purpose               | Creates objects without specifying the exact class.   | Creates families of related objects without specifying their concrete classes.      | 
 | 2. Complexity            | Less complex, focuses on a single product type.       | More complex, involves multiple related products.                                   |
 | 3. Level of Abstraction  | Lower level of abstraction.                           | Higher level of abstraction.                                                        |
-| 4. Class Hierarchy       | Involves a single factory method.                     |Involves multiple factory methods grouped under an abstract factory.                 |
+| 4. Class Hierarchy       | Involves a single factory method.                     | Involves multiple factory methods grouped under an abstract factory.                |
 | 5. Object Creation       | One product per factory.                              | Multiple related products per factory.                                              |
 | 6. Usage Scenario        | Useful when only one type of product is required.     | Useful when multiple types of related products are required.                        |
 | 7. Flexibility           | Less flexible as it deals with a single product.      | More flexible as it deals with multiple related products.                           |
