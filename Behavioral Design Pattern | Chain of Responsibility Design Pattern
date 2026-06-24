@@ -1,0 +1,123 @@
+Chain of Responsibility Design Pattern
+
+The Chain of Responsibility Design Pattern in Java is a behavioral design pattern that allows an object to pass a request along a chain of handlers. 
+Each handler in the chain decides either to process the request or to pass it along the chain to the next handler.
+
+Real-World Analogy of the Chain Of Responsibility Design Pattern:
+Imagine a customer service department with multiple levels of support staff, each responsible for handling different types of customer inquiries based on their complexity. 
+The chain of responsibility can be illustrated as follows:
+
+Level 1 Support:
+This represents the first point of contact for customer inquiries. Level 1 support staff handle basic inquiries and provide general assistance. 
+If they cannot resolve the issue, they escalate it to Level 2 support.
+
+Level 2 Support:
+This level consists of more experienced support staff who can handle more complex issues that Level 1 support cannot resolve. 
+If Level 2 support cannot resolve the issue, they escalate it to Level 3 support.
+
+Level 3 Support:
+This is the highest level of support, consisting of senior or specialized staff who can handle critical or highly technical issues. 
+If Level 3 support cannot resolve the issue, they may involve other departments or experts within the organization.
+
+Code:
+
+package com.designpattern;
+
+// Handler Interface
+interface SupportHandler {
+    void handleRequest(Request request);
+    void setNextHandler(SupportHandler nextHandler);
+}
+
+// Concrete Handlers
+class Level1SupportHandler implements SupportHandler {
+    private SupportHandler nextHandler;
+
+    public void setNextHandler(SupportHandler nextHandler) {
+        this.nextHandler = nextHandler;
+    }
+
+    public void handleRequest(Request request) {
+        if (request.getPriority() == Priority.BASIC) {
+            System.out.println("Level 1 Support handled the request.");
+        } else if (nextHandler != null) {
+            nextHandler.handleRequest(request);
+        }
+    }
+}
+
+class Level2SupportHandler implements SupportHandler {
+    private SupportHandler nextHandler;
+
+    public void setNextHandler(SupportHandler nextHandler) {
+        this.nextHandler = nextHandler;
+    }
+
+    public void handleRequest(Request request) {
+        if (request.getPriority() == Priority.INTERMEDIATE) {
+            System.out.println("Level 2 Support handled the request.");
+        } else if (nextHandler != null) {
+            nextHandler.handleRequest(request);
+        }
+    }
+}
+
+class Level3SupportHandler implements SupportHandler {
+    public void handleRequest(Request request) {
+        if (request.getPriority() == Priority.CRITICAL) {
+            System.out.println("Level 3 Support handled the request.");
+        } else {
+            System.out.println("Request cannot be handled.");
+        }
+    }
+
+    public void setNextHandler(SupportHandler nextHandler) {
+        // No next handler for Level 3
+    }
+}
+
+// Request Class
+class Request {
+    private Priority priority;
+
+    public Request(Priority priority) {
+        this.priority = priority;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+}
+
+// Priority Enum
+enum Priority {
+    BASIC, INTERMEDIATE, CRITICAL
+}
+
+// Main Class
+public class Main {
+    public static void main(String[] args) {
+        SupportHandler level1Handler = new Level1SupportHandler();
+        SupportHandler level2Handler = new Level2SupportHandler();
+        SupportHandler level3Handler = new Level3SupportHandler();
+
+        level1Handler.setNextHandler(level2Handler);
+        level2Handler.setNextHandler(level3Handler);
+
+        Request request1 = new Request(Priority.BASIC);
+        Request request2 = new Request(Priority.INTERMEDIATE);
+        Request request3 = new Request(Priority.CRITICAL);
+
+        level1Handler.handleRequest(request1);
+        level1Handler.handleRequest(request2);
+        level1Handler.handleRequest(request3);
+    }
+}
+
+
+O/P:
+
+Level 1 Support handled the request.
+Level 2 Support handled the request.
+Level 3 Support handled the request.
+
